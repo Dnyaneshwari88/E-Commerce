@@ -10,11 +10,14 @@ const port = process.env.PORT || 4000;
 app.use(express.json());
 app.use(cors());
 
-// Database Connection With MongoDB
-mongoose.connect("mongodb://localhost:27017/e-commerce");
-
-// paste your mongoDB Connection string above with password
-// password should not contain '@' special character
+mongoose.connect("mongodb://127.0.0.1:27017/ecommerce", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+}).then(() => {
+  console.log("Connected to Local MongoDB");
+}).catch((err) => {
+  console.log("Error connecting to MongoDB:", err);
+});
 
 
 //Image Storage Engine 
@@ -120,7 +123,7 @@ app.post('/signup', async (req, res) => {
     return res.status(400).json({ success: success, errors: "existing user found with this email" });
   }
   let cart = {};
-  for (let i = 0; i < 300; i++) {
+  for (let i = 0; i < 5; i++) {
     cart[i] = 0;
   }
   const user = new Users({
